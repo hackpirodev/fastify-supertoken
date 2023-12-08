@@ -2,9 +2,7 @@
 // Require library to exit fastify process, gracefully (if possible)
 // Require the framework
 import Fastify from "fastify";
-import * as dotenv from "dotenv";
 import closeWithGrace from "close-with-grace";
-dotenv.config();
 // Instantiate Fastify with some config
 const app = Fastify({
 	logger: true,
@@ -29,12 +27,13 @@ app.addHook("onClose", async (instance, done) => {
 	closeListeners.uninstall();
 	done();
 });
-
+await app.ready();
 // Start listening.
 app.listen(
 	{
-		host: process.env.HOST || "0.0.0.0",
-		port: parseInt(process.env.PORT as string) || 3000,
+		//TODO: I want use app.config.HTTP_HOST, but it is not working
+		host: "0.0.0.0",
+		port: 3001,
 	},
 	(err) => {
 		if (err) {

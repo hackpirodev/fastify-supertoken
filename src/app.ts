@@ -2,15 +2,8 @@ import AutoLoad, { AutoloadPluginOptions } from "@fastify/autoload";
 import { FastifyPluginAsync } from "fastify";
 import path, { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import fastifyEnv from "@fastify/env";
 
-declare module "fastify" {
-	interface FastifyInstance {
-		config: {
-			ALLOWED_ORIGINS: string;
-		};
-	}
-}
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -27,17 +20,6 @@ const app: FastifyPluginAsync<AppOptions> = async (
 	// This loads all plugins defined in plugins
 	// those should be support plugins that are reused
 	// through your application
-	await fastify.register(fastifyEnv, {
-		dotenv: true,
-		schema: {
-			type: "object",
-			properties: {
-				ALLOWED_ORIGINS: {
-					type: "string",
-				},
-			},
-		},
-	});
 
 	await fastify.register(AutoLoad, {
 		dir: join(__dirname, "plugins"),

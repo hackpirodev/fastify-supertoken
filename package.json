@@ -13,7 +13,7 @@
     "prepare": "husky install",
     "format": "biome format src test --write",
     "lint": "biome check src test",
-    "start": "npm run build && fastify start -l info dist/app.js",
+    "start": "DEBUG=com.supertokens* npm run build && node dist/server.js",
     "prebuild": "rimraf dist",
     "build": "tsc -d",
     "build:watch": "tsc -d --watch",
